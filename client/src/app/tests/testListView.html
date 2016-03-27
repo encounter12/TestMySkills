@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="panel panel-success" ng-repeat="test in tests">
+    <div class="panel-heading">
+      <a href=""><h3 class="panel-title">{{ test.title }}</h3></a>
+    </div>
+    <div class="panel-body">
+      <ul>
+        <li>
+          Created by: {{ test.createdBy }}
+        </li>
+        <li>
+          Date: {{ test.date }}
+        </li>
+        <li>
+          Category: {{ test.category }}
+        </li>
+        <li>
+          Description: {{ test.description }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
