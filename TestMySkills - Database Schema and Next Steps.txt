@@ -1,0 +1,256 @@
+﻿Create Database Schema
+Create Models 
+Create Data Layer
+Create Seed
+
+Allow User Registration and Login
+
+Tests CRUD
+
+Routing
+
+Tests List:
+/{category-name}/tests
+
+Categories List:
+/categories
+
+
+Allow user to create very simple test - on one page
+
+Allow user to take a test - display on one page. Later extend this functionality by displaying each question on a separate page, implement pager
+Route: /tests/{test-name}/questions/{question-number}
+
+
+Localization and Globalization
+What if the test time is over and the test taker did not complete the test
+What if the test taker closes the tab or the browser while the test is running
+
+When the test taker closes the browser he should be able to continue the test after relogin to the website
+
+
+
+-----------------------
+
+1. Add json file with list of tests in WebAPI Project - folder App_Data
+2. Set the Tests Controller - Get action method to return the json file
+3. Check if the server returns the json file
+4. Enable CORS
+5. Check if the client displays the tests list: /#/tests
+6. Commit changes
+---------------------------------
+1. Set very simple database schema - WebAPI Models folder
+2. Enable-Migrations
+3. Set very simple seed method
+4. Make sure the server returns the list of "Tests"
+5. Run client: /#/tests
+6. Commit changes
+---------------------------------
+
+1. Set very simple database schema - WebAPI Models folder
+2. Enable-Migrations
+3. Set very simple seed method
+4. Make sure the server returns the list of "Tests" 
+5. Run client: /#/tests
+6. Commit changes
+---------------------------------
+
+1. Create Models project
+2. Move Data models to Models Project
+3. Add reference in WebAPI Project to the Models Project
+4. Update-Database
+5. Commit changes
+---------------------------------
+
+1. Create Data Layer
+2. Create Repositories (just one very simple "TestRepository")
+3. Install Dependency Injection Container Library
+4. Set Dependency Injection binding for the ApplicationDbContext and the Repository 
+5. Refactor WebAPI Project - TestsController - Get action method to use the repository
+6. Check if the server returns the Tests list
+7. Make sure the client displays the Tests list
+8. Commit changes
+
+--------------------------------
+Extended Database Schema:
+
+ApplicationUser
+
+public string IpAddress { get; set; }
+
+--------------------------------
+
+TestTaker
+
+[Required]
+public int Id { get; set; }
+
+public int ApplicationUserId { get; set; }
+
+public virtual ApplicationUser { get; set; }
+
+public ICollection<TestHistory> TestHistories;
+
+--------------------------------
+Test
+
+[Required]
+public int Id { get; set; }
+
+public string Title { get; set; }
+
+public ICollection<Question> Questions;
+
+//automatically table TestTakerTests should be created
+
+public ICollection<TestTaker> TestTakers;
+
+public int AllowedTimeInSeconds { get; set; }
+
+public int CategoryId { get; set; }
+
+public virtual Category Category { get; set; }
+
+public ICollection<HashTag> HashTags { get; set; }
+
+public string IpAddress { get; set; }
+
+--------------------------------
+Question
+
+[Required]
+public int Id { get; set; }
+
+public string Text { get; set; }
+
+public ICollection<Answer> Answers;
+
+public int TestId { get; set; }
+
+public virtual Test Test { get; set; }
+
+--------------------------------
+Answer
+
+[Required]
+public int Id { get; set; }
+
+public string Text { get; set; }
+
+public bool IsCorrect { get; set; }
+
+public int QuestionId { get; set; }
+
+public virtual Question Question { get; set; }
+
+--------------------------------
+
+TestsHistory
+
+[Required]
+public int Id { get; set; }
+
+public int TestId { get; set; }
+
+public virtual Test Test { get; set; }
+
+public string TestTitle { get; set; }
+
+public int TestTakerId { get; set; }
+
+public virtual TestTaker TesTaker { get; set; }
+
+public DateTime StartTime { get; set; }
+
+public DateTime EndTime { get; set; }
+
+public int ActualDurationTimeInSeconds { get; set; }
+
+public ICollection<QuestionsHistory> QuestionsHistories;
+
+--------------------------------
+
+QuestionsHistory
+
+[Required]
+public int Id { get; set; }
+
+public int QuestionId { get; set; }
+
+public virtual Question Question { get; set; }
+
+public string QuestionText { get; set; }
+
+public int TestsHistoryId { get; set; }
+
+public virtual TestsHistory TestsHistory { get; set; }
+
+public ICollection<AnswersHistory> AnswersHistories;
+
+--------------------------------
+
+AnswersHistory
+
+[Required]
+public int Id { get; set; }
+
+public int AnswerId { get; set; }
+
+public virtual Answer Answer { get; set; }
+
+public string AnswerText { get; set; }
+
+public int QuestionsHistoryId { get; set; }
+
+public virtual QuestionsHistory { get; set; }
+
+public DateTime AnsweringDate { get; set; }
+
+public bool IsCorrect { get; set; }
+
+public bool IsSelected { get; set; }
+
+
+--------------------------------
+Category (hierarchical)
+
+[Required]
+public int Id { get; set; }
+
+public string Name { get; set; }
+
+public int ParentId { get; set; }
+
+public ICollection<Test> Tests;
+
+---
+
+Allowed Nesting: 3 levels
+
+
+--------------------------------
+
+HashTag
+
+[Required]
+public int Id { get; set; }
+
+public int TestId { get; set; }
+
+
+--------------------------------------------------
+
+Required Columns for all tables:
+
+CreatedBy
+CreatedOn
+
+Deleted
+DeletedBy
+DeletedOn
+
+Additional Fields for tables that will be changed through the interface:
+
+Modified
+ModifiedBy
+ModifiedOn

@@ -4,6 +4,6 @@
     angular
         .module('common', [])
         .constant('appSettings', {
-            serverPath: 'http://localhost:5000'
+            serverPath: 'http://localhost:29823'
         });
 }());
