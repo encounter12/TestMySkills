@@ -39,24 +39,17 @@ When the test taker closes the browser he should be able to continue the test af
 5. Check if the client displays the tests list: /#/tests
 6. Commit changes
 ---------------------------------
-1. Set very simple database schema - WebAPI Models folder
+1. Set very simple database schema - WebAPI Models folder, set ApplicationDbContext
 2. Enable-Migrations
 3. Set very simple seed method
 4. Make sure the server returns the list of "Tests"
 5. Run client: /#/tests
 6. Commit changes
----------------------------------
 
-1. Set very simple database schema - WebAPI Models folder
-2. Enable-Migrations
-3. Set very simple seed method
-4. Make sure the server returns the list of "Tests" 
-5. Run client: /#/tests
-6. Commit changes
----------------------------------
+--------------------------------
 
 1. Create Models project
-2. Move Data models to Models Project
+2. Move POCO classes to Models Project
 3. Add reference in WebAPI Project to the Models Project
 4. Update-Database
 5. Commit changes

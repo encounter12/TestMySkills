@@ -1,7 +1,9 @@
 ﻿namespace TestMySkills.WebAPI
 {
+    using System.Net.Http.Headers;
     using System.Web.Http;
     using Microsoft.Owin.Security.OAuth;
+    using Newtonsoft.Json.Serialization;
 
     public static class WebApiConfig
     {
@@ -13,6 +15,8 @@
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+              new CamelCasePropertyNamesContractResolver();
 
             //// Web API routes
             config.MapHttpAttributeRoutes();
@@ -20,8 +24,7 @@
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                defaults: new { id = RouteParameter.Optional });
         }
     }
 }

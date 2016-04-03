@@ -403,8 +403,8 @@ namespace TestMySkills.WebAPI.Areas.HelpPage
             {
                 return new Dictionary<Type, Func<long, object>>
                 {
-                    { typeof(Boolean), index => true },
-                    { typeof(Byte), index => (Byte)64 },
+                    { typeof(bool), index => true },
+                    { typeof(byte), index => (byte)64 },
                     { typeof(Char), index => (Char)65 },
                     { typeof(DateTime), index => DateTime.Now },
                     { typeof(DateTimeOffset), index => new DateTimeOffset(DateTime.Now) },
@@ -412,16 +412,16 @@ namespace TestMySkills.WebAPI.Areas.HelpPage
                     { typeof(Decimal), index => (Decimal)index },
                     { typeof(Double), index => (Double)(index + 0.1) },
                     { typeof(Guid), index => Guid.NewGuid() },
-                    { typeof(Int16), index => (Int16)(index % Int16.MaxValue) },
+                    { typeof(short), index => (Int16)(index % Int16.MaxValue) },
                     { typeof(Int32), index => (Int32)(index % Int32.MaxValue) },
                     { typeof(Int64), index => (Int64)index },
                     { typeof(Object), index => new object() },
-                    { typeof(SByte), index => (SByte)64 },
+                    { typeof(sbyte), index => (SByte)64 },
                     { typeof(Single), index => (Single)(index + 0.1) },
                     { 
-                        typeof(String), index =>
+                        typeof(string), index =>
                         {
-                            return String.Format(CultureInfo.CurrentCulture, "sample string {0}", index);
+                            return string.Format(CultureInfo.CurrentCulture, "sample string {0}", index);
                         }
                     },
                     { 
@@ -436,7 +436,7 @@ namespace TestMySkills.WebAPI.Areas.HelpPage
                     { 
                         typeof(Uri), index =>
                         {
-                            return new Uri(String.Format(CultureInfo.CurrentCulture, "http://webapihelppage{0}.com", index));
+                            return new Uri(string.Format(CultureInfo.CurrentCulture, "http://webapihelppage{0}.com", index));
                         }
                     },
                 };

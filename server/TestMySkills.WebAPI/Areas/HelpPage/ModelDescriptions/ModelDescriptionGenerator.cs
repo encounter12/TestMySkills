@@ -25,25 +25,25 @@ namespace TestMySkills.WebAPI.Areas.HelpPage.ModelDescriptions
             { typeof(RangeAttribute), a =>
                 {
                     RangeAttribute range = (RangeAttribute)a;
-                    return String.Format(CultureInfo.CurrentCulture, "Range: inclusive between {0} and {1}", range.Minimum, range.Maximum);
+                    return string.Format(CultureInfo.CurrentCulture, "Range: inclusive between {0} and {1}", range.Minimum, range.Maximum);
                 }
             },
             { typeof(MaxLengthAttribute), a =>
                 {
                     MaxLengthAttribute maxLength = (MaxLengthAttribute)a;
-                    return String.Format(CultureInfo.CurrentCulture, "Max length: {0}", maxLength.Length);
+                    return string.Format(CultureInfo.CurrentCulture, "Max length: {0}", maxLength.Length);
                 }
             },
             { typeof(MinLengthAttribute), a =>
                 {
                     MinLengthAttribute minLength = (MinLengthAttribute)a;
-                    return String.Format(CultureInfo.CurrentCulture, "Min length: {0}", minLength.Length);
+                    return string.Format(CultureInfo.CurrentCulture, "Min length: {0}", minLength.Length);
                 }
             },
             { typeof(StringLengthAttribute), a =>
                 {
                     StringLengthAttribute strLength = (StringLengthAttribute)a;
-                    return String.Format(CultureInfo.CurrentCulture, "String length: inclusive between {0} and {1}", strLength.MinimumLength, strLength.MaximumLength);
+                    return string.Format(CultureInfo.CurrentCulture, "String length: inclusive between {0} and {1}", strLength.MinimumLength, strLength.MaximumLength);
                 }
             },
             { typeof(DataTypeAttribute), a =>
@@ -63,25 +63,25 @@ namespace TestMySkills.WebAPI.Areas.HelpPage.ModelDescriptions
         // Modify this to add more default documentations.
         private readonly IDictionary<Type, string> DefaultTypeDocumentation = new Dictionary<Type, string>
         {
-            { typeof(Int16), "integer" },
+            { typeof(short), "integer" },
             { typeof(Int32), "integer" },
             { typeof(Int64), "integer" },
             { typeof(UInt16), "unsigned integer" },
             { typeof(UInt32), "unsigned integer" },
             { typeof(UInt64), "unsigned integer" },
-            { typeof(Byte), "byte" },
+            { typeof(byte), "byte" },
             { typeof(Char), "character" },
-            { typeof(SByte), "signed byte" },
+            { typeof(sbyte), "signed byte" },
             { typeof(Uri), "URI" },
             { typeof(Single), "decimal number" },
-            { typeof(Double), "decimal number" },
-            { typeof(Decimal), "decimal number" },
+            { typeof(double), "decimal number" },
+            { typeof(decimal), "decimal number" },
             { typeof(String), "string" },
             { typeof(Guid), "globally unique identifier" },
             { typeof(TimeSpan), "time interval" },
             { typeof(DateTime), "date" },
             { typeof(DateTimeOffset), "date" },
-            { typeof(Boolean), "boolean" },
+            { typeof(bool), "boolean" },
         };
 
         private Lazy<IModelDocumentationProvider> _documentationProvider;

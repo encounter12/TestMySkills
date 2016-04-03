@@ -1,36 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.ModelBinding;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using TestMySkills.WebAPI.Models;
-using TestMySkills.WebAPI.Providers;
-using TestMySkills.WebAPI.Results;
-
-namespace TestMySkills.WebAPI.Controllers
+﻿namespace TestMySkills.WebAPI.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Security.Claims;
+    using System.Security.Cryptography;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Http;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using Microsoft.Owin.Security.Cookies;
+    using Microsoft.Owin.Security.OAuth;
+    using TestMySkills.Models;
+    using TestMySkills.WebAPI.IdentityConfig;
+    using TestMySkills.WebAPI.Models;
+    using TestMySkills.WebAPI.Providers;
+    using TestMySkills.WebAPI.Results;
+
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private ApplicationUserManager _userManager;
+
+        private ApplicationUserManager userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager,
+        public AccountController(
+            ApplicationUserManager userManager, 
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
@@ -41,11 +44,11 @@ namespace TestMySkills.WebAPI.Controllers
         {
             get
             {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return this.userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set
             {
-                _userManager = value;
+                this.userManager = value;
             }
         }
 
@@ -123,8 +126,8 @@ namespace TestMySkills.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
+            IdentityResult result = 
+                await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             
             if (!result.Succeeded)
             {
@@ -180,7 +183,8 @@ namespace TestMySkills.WebAPI.Controllers
                 return BadRequest("The external login is already associated with an account.");
             }
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+            IdentityResult result = await UserManager.AddLoginAsync(
+                User.Identity.GetUserId(),
                 new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
             if (!result.Succeeded)
@@ -247,6 +251,7 @@ namespace TestMySkills.WebAPI.Controllers
             if (externalLogin.LoginProvider != provider)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
                 return new ChallengeResult(provider, this);
             }
 
@@ -259,18 +264,22 @@ namespace TestMySkills.WebAPI.Controllers
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                 
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    CookieAuthenticationDefaults.AuthenticationType);
+                 ClaimsIdentity oAuthIdentity = 
+                    await user.GenerateUserIdentityAsync(UserManager, OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity cookieIdentity = 
+                    await user.GenerateUserIdentityAsync(UserManager, CookieAuthenticationDefaults.AuthenticationType);
 
                 AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+
                 Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
             }
             else
             {
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
+
                 ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+
                 Authentication.SignIn(identity);
             }
 
@@ -302,7 +311,8 @@ namespace TestMySkills.WebAPI.Controllers
                 ExternalLoginViewModel login = new ExternalLoginViewModel
                 {
                     Name = description.Caption,
-                    Url = Url.Route("ExternalLogin", new
+                    Url = Url.Route("ExternalLogin", 
+                    new
                     {
                         provider = description.AuthenticationType,
                         response_type = "token",
@@ -375,10 +385,10 @@ namespace TestMySkills.WebAPI.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _userManager != null)
+            if (disposing && userManager != null)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                userManager.Dispose();
+                userManager = null;
             }
 
             base.Dispose(disposing);
@@ -448,8 +458,8 @@ namespace TestMySkills.WebAPI.Controllers
 
                 Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
 
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
-                    || String.IsNullOrEmpty(providerKeyClaim.Value))
+                if (providerKeyClaim == null || string.IsNullOrEmpty(providerKeyClaim.Issuer)
+                    || string.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }

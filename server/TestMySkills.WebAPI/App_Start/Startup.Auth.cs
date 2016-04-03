@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
-using Microsoft.Owin.Security.OAuth;
-using Owin;
-using TestMySkills.WebAPI.Providers;
-using TestMySkills.WebAPI.Models;
+﻿using TestMySkills.Data;
 
 namespace TestMySkills.WebAPI
 {
+    using System;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.Owin;
+    using Microsoft.Owin.Security.Cookies;
+    using Microsoft.Owin.Security.OAuth;
+    using Owin;
+    using TestMySkills.WebAPI.Providers;
+    using TestMySkills.WebAPI.Models;
+    using TestMySkills.WebAPI.IdentityConfig;
+
     public partial class Startup
     {
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
@@ -47,23 +46,23 @@ namespace TestMySkills.WebAPI
             app.UseOAuthBearerTokens(OAuthOptions);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
+            // app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
+            // app.UseTwitterAuthentication(
             //    consumerKey: "",
             //    consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
+            // app.UseFacebookAuthentication(
             //    appId: "",
             //    appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            // app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            // {
+            //     ClientId = "",
+            //     ClientSecret = ""
+            // });
         }
     }
 }
